@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller //Viktigt att komma ihåg
 @SpringBootApplication
 public class DemoApplication {
-	@RequestMapping("/")
+	@RequestMapping("/hello")
 	@ResponseBody
 	String Home() {
 		
