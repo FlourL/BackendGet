@@ -24,7 +24,7 @@ import java.util.List;
 						"jdbc:mysql://" + username + ":" + password + "@" + ip + "/"
 						);
 				System.out.println("Connected to database");
-				initDBTable(conn, "user_db", "Users");
+				initDBAndTable();
 			}catch(SQLException e) {
 				System.out.println("Error: " + e.getMessage());
 			}
@@ -36,7 +36,7 @@ import java.util.List;
 				}
 				conn = DriverManager.getConnection(System.getenv(systemEnvUrl));
 				System.out.println("Connected to database");
-				initDBTable(conn, "user_db", "Users");
+				initDBAndTable();
 			}catch(SQLException e) {
 				System.out.println("Error: " + e.getMessage());
 			}
@@ -66,18 +66,25 @@ import java.util.List;
 			}
 			
 			
-		}private synchronized void initDBTable(Connection conn, String dbName, String tableName) {
+		}private synchronized void initDBAndTable() {
 			try {
-			conn.prepareStatement("CREATE DATABASE IF NOT EXISTS " + dbName + " ;");
+			conn.prepareStatement("CREATE DATABASE IF NOT EXISTS user_db ;").executeUpdate();
 			conn.setCatalog("user_db");
-			conn.prepareStatement(
-					"CREATE TABLE IF NOT EXISTS "+ tableName + " (" + 
+			conn.prepareStatement( //this whole statement would have to be remade for modification purposes, but yeah
+					"CREATE TABLE IF NOT EXISTS Users (" + 
 					"id Integer NOT NULL AUTO_INCREMENT," + 
 					"name VARCHAR(255)," + 
 					"proffesion VARCHAR(255)," + 
 					"CONSTRAINT user_id PRIMARY KEY (id)" + 
 					");").executeUpdate();
 			}catch(SQLException e){
+				e.printStackTrace();
+			}
+		}public synchronized void addUser(String fullname, String proffesion) {
+			try {
+				//When surrounded by ' and ' one can write "DROP TABLE Users" and all that jazz with no worries
+				conn.prepareStatement("INSERT INTO Users (name,proffesion) Values ('" + fullname + "','" + proffesion + "');").executeUpdate();
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}

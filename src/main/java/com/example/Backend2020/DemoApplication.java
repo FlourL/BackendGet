@@ -21,6 +21,8 @@ public class DemoApplication {
 	public @ResponseBody
 	List<User> userlist() { //return list of objects with jackson lib
 		contin.ConnectTo("JDBC_DATABASE_URL");
+		//contin.ConnectTo("localhost:3306", "root", getPassword());
+		contin.addUser("Karl Pedersson", "Physicist");
 		List<User> users = contin.getAllUsers();
 		return contin.getAllUsers();
 	}
