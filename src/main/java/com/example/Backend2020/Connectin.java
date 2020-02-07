@@ -11,7 +11,6 @@ import java.util.List;
 	public class Connectin {
 		private static final Connectin contin = new Connectin();
 		private Connection conn;
-		private String tablename = "Users";
 		private Connectin() { 
 			super();
 		}
@@ -24,7 +23,16 @@ import java.util.List;
 						"jdbc:mysql://" + username + ":" + password + "@" + ip + "/"
 						);
 				System.out.println("Connected to database");
-				initDBAndTable();
+				//initDBAndTable();
+				conn.prepareStatement("CREATE DATABASE IF NOT EXISTS user_db ;").executeQuery();
+				conn.setCatalog("user_db");
+				conn.prepareStatement( //this whole statement would have to be remade for modification purposes, but yeah
+						"CREATE TABLE IF NOT EXISTS Users (" + 
+						"id Integer NOT NULL AUTO_INCREMENT," + 
+						"name VARCHAR(255)," + 
+						"proffesion VARCHAR(255)," + 
+						"CONSTRAINT user_id PRIMARY KEY (id)" + 
+						");").executeQuery();
 			}catch(SQLException e) {
 				System.out.println("Error: " + e.getMessage());
 			}
@@ -47,7 +55,7 @@ import java.util.List;
 		public synchronized List<User> getAllUsers(){
 			try {
 				List<User> userlist = new ArrayList<>();
-				String query = ("SElECT * FROM " + this.tablename);
+				String query = ("SElECT * FROM Users");
 				PreparedStatement stmt = conn.prepareStatement(query);
 				ResultSet rs = stmt.executeQuery();
 				while(rs.next()) {
