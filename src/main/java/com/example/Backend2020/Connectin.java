@@ -68,7 +68,7 @@ import java.util.List;
 			
 		}private synchronized void initDBAndTable() {
 			try {
-			conn.prepareStatement("CREATE DATABASE IF NOT EXISTS user_db ;").executeUpdate();
+			conn.prepareStatement("CREATE DATABASE IF NOT EXISTS user_db ;").executeQuery();
 			conn.setCatalog("user_db");
 			conn.prepareStatement( //this whole statement would have to be remade for modification purposes, but yeah
 					"CREATE TABLE IF NOT EXISTS Users (" + 
@@ -76,14 +76,15 @@ import java.util.List;
 					"name VARCHAR(255)," + 
 					"proffesion VARCHAR(255)," + 
 					"CONSTRAINT user_id PRIMARY KEY (id)" + 
-					");").executeUpdate();
+					");").executeQuery();
 			}catch(SQLException e){
 				e.printStackTrace();
 			}
 		}public synchronized void addUser(String fullname, String proffesion) {
 			try {
 				//When surrounded by ' and ' one can write "DROP TABLE Users" and all that jazz with no worries
-				conn.prepareStatement("INSERT INTO Users (name,proffesion) Values ('" + fullname + "','" + proffesion + "');").executeUpdate();
+				conn.prepareStatement("INSERT INTO Users (name,proffesion) Values ('" + fullname + "','" + proffesion + "');").executeQuery();
+				System.out.println("user added");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

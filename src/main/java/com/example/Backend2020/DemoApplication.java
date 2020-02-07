@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @SpringBootApplication
 public class DemoApplication {
 	Connectin contin = Connectin.getInstance();
-	@RequestMapping("/")
+	@RequestMapping()
 	String get() {
 		
 		return "try going to /userlist";
@@ -27,7 +27,6 @@ public class DemoApplication {
 		contin.ConnectTo("JDBC_DATABASE_URL");
 		//contin.ConnectTo("localhost:3306", "root", getPassword());
 		contin.addUser("Karl Pedersson", "Physicist");
-		List<User> users = contin.getAllUsers();
 		return contin.getAllUsers();
 	}
 	public static void main(String[] args) {
