@@ -24,15 +24,19 @@ import java.util.List;
 						"jdbc:mysql://" + username + ":" + password + "@" + ip + "/"
 						);
 				System.out.println("Connected to database");
-				conn.prepareStatement("CREATE DATABASE IF NOT EXISTS user_db;");
-				conn.setCatalog("user_db");
-				conn.prepareStatement(
-						"CREATE TABLE IF NOT EXISTS Users (" + 
-						"id Integer NOT NULL AUTO_INCREMENT," + 
-						"name VARCHAR(255)," + 
-						"proffesion VARCHAR(255)," + 
-						"CONSTRAINT user_id PRIMARY KEY (id)" + 
-						");").executeUpdate();
+				initDBTable(conn, "user_db", "Users");
+			}catch(SQLException e) {
+				System.out.println("Error: " + e.getMessage());
+			}
+		}
+		public synchronized void ConnectTo(String systemEnvUrl) {
+			try {
+				if(conn != null) {
+					conn.close();
+				}
+				conn = DriverManager.getConnection(System.getenv(systemEnvUrl));
+				System.out.println("Connected to database");
+				initDBTable(conn, "user_db", "Users");
 			}catch(SQLException e) {
 				System.out.println("Error: " + e.getMessage());
 			}
@@ -62,6 +66,20 @@ import java.util.List;
 			}
 			
 			
+		}private synchronized void initDBTable(Connection conn, String dbName, String tableName) {
+			try {
+			conn.prepareStatement("CREATE DATABASE IF NOT EXISTS " + dbName + " ;");
+			conn.setCatalog("user_db");
+			conn.prepareStatement(
+					"CREATE TABLE IF NOT EXISTS "+ tableName + " (" + 
+					"id Integer NOT NULL AUTO_INCREMENT," + 
+					"name VARCHAR(255)," + 
+					"proffesion VARCHAR(255)," + 
+					"CONSTRAINT user_id PRIMARY KEY (id)" + 
+					");").executeUpdate();
+			}catch(SQLException e){
+				e.printStackTrace();
+			}
 		}
 	}
 
