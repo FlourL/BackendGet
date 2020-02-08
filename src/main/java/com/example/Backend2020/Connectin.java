@@ -23,16 +23,7 @@ import java.util.List;
 						"jdbc:mysql://" + username + ":" + password + "@" + ip + "/"
 						);
 				System.out.println("Connected to database");
-				//initDBAndTable();
-				conn.prepareStatement("CREATE DATABASE IF NOT EXISTS user_db ;").executeQuery();
-				conn.setCatalog("user_db");
-				conn.prepareStatement( //this whole statement would have to be remade for modification purposes, but yeah
-						"CREATE TABLE IF NOT EXISTS Users (" + 
-						"id Integer NOT NULL AUTO_INCREMENT," + 
-						"name VARCHAR(255)," + 
-						"proffesion VARCHAR(255)," + 
-						"CONSTRAINT user_id PRIMARY KEY (id)" + 
-						");").executeQuery();
+				initDBAndTable();
 			}catch(SQLException e) {
 				System.out.println("Error: " + e.getMessage());
 			}
@@ -44,7 +35,16 @@ import java.util.List;
 				}
 				conn = DriverManager.getConnection(System.getenv(systemEnvUrl));
 				System.out.println("Connected to database");
-				initDBAndTable();
+				//initDBAndTable();
+				conn.prepareStatement("CREATE DATABASE IF NOT EXISTS user_db ;").executeQuery();
+				conn.setCatalog("user_db");
+				conn.prepareStatement( //this whole statement would have to be remade for modification purposes, but yeah
+						"CREATE TABLE IF NOT EXISTS Users (" + 
+						"id Integer NOT NULL AUTO_INCREMENT," + 
+						"name VARCHAR(255)," + 
+						"proffesion VARCHAR(255)," + 
+						"CONSTRAINT user_id PRIMARY KEY (id)" + 
+						");").executeQuery();
 			}catch(SQLException e) {
 				System.out.println("Error: " + e.getMessage());
 			}
