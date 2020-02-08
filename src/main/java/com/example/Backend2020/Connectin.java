@@ -36,7 +36,7 @@ import java.util.List;
 				conn = DriverManager.getConnection(System.getenv(systemEnvUrl));
 				System.out.println("Connected to database");
 				//initDBAndTable();
-				conn.prepareStatement("CREATE DATABASE IF NOT EXISTS user_db ;").executeQuery();
+				conn.prepareStatement("CREATE SCHEMA IF NOT EXISTS user_db;").executeQuery();
 				conn.setCatalog("user_db");
 				System.out.println("USERDB REACHED");
 				conn.prepareStatement( //this whole statement would have to be remade for modification purposes, but yeah
