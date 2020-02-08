@@ -36,7 +36,7 @@ import java.util.List;
 				conn = DriverManager.getConnection(System.getenv(systemEnvUrl));
 				System.out.println("Connected to database");
 				//initDBAndTable();
-				conn.prepareStatement("CREATE SCHEMA IF NOT EXISTS user_db;").executeQuery();
+				conn.prepareStatement("CREATE SCHEMA IF NOT EXISTS user_db;").executeUpdate(); //must write Schema apparently
 				conn.setCatalog("user_db");
 				System.out.println("USERDB REACHED");
 				conn.prepareStatement( //this whole statement would have to be remade for modification purposes, but yeah
@@ -45,7 +45,7 @@ import java.util.List;
 						"name VARCHAR(255)," + 
 						"proffesion VARCHAR(255)," + 
 						"CONSTRAINT user_id PRIMARY KEY (id)" + 
-						");").executeQuery();
+						");").executeUpdate();
 				System.out.println("CREATED TABLE");
 			}catch(SQLException e) {
 				System.out.println("Error: " + e.getMessage());
@@ -78,7 +78,7 @@ import java.util.List;
 			
 		}private synchronized void initDBAndTable() {
 			try {
-			conn.prepareStatement("CREATE DATABASE IF NOT EXISTS user_db ;").executeQuery();
+			conn.prepareStatement("CREATE DATABASE IF NOT EXISTS user_db ;").executeUpdate();
 			conn.setCatalog("user_db");
 			conn.prepareStatement( //this whole statement would have to be remade for modification purposes, but yeah
 					"CREATE TABLE IF NOT EXISTS Users (" + 
@@ -86,7 +86,7 @@ import java.util.List;
 					"name VARCHAR(255)," + 
 					"proffesion VARCHAR(255)," + 
 					"CONSTRAINT user_id PRIMARY KEY (id)" + 
-					");").executeQuery();
+					");").executeUpdate();
 			}catch(SQLException e){
 				e.printStackTrace();
 			}
