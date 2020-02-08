@@ -17,7 +17,6 @@ public class DemoApplication {
 	Connectin contin = Connectin.getInstance();
 	@RequestMapping()
 	String get() {
-		
 		return "try going to /userlist";
 	}
 	@RequestMapping(value = "/userlist", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

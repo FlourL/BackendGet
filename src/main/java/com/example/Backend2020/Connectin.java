@@ -38,6 +38,7 @@ import java.util.List;
 				//initDBAndTable();
 				conn.prepareStatement("CREATE DATABASE IF NOT EXISTS user_db ;").executeQuery();
 				conn.setCatalog("user_db");
+				System.out.println("USERDB REACHED");
 				conn.prepareStatement( //this whole statement would have to be remade for modification purposes, but yeah
 						"CREATE TABLE IF NOT EXISTS Users (" + 
 						"id Integer NOT NULL AUTO_INCREMENT," + 
@@ -45,6 +46,7 @@ import java.util.List;
 						"proffesion VARCHAR(255)," + 
 						"CONSTRAINT user_id PRIMARY KEY (id)" + 
 						");").executeQuery();
+				System.out.println("CREATED TABLE");
 			}catch(SQLException e) {
 				System.out.println("Error: " + e.getMessage());
 			}
@@ -55,7 +57,7 @@ import java.util.List;
 		public synchronized List<User> getAllUsers(){
 			try {
 				List<User> userlist = new ArrayList<>();
-				String query = ("SElECT * FROM Users");
+				String query = ("SElECT * FROM Users ");
 				PreparedStatement stmt = conn.prepareStatement(query);
 				ResultSet rs = stmt.executeQuery();
 				while(rs.next()) {
