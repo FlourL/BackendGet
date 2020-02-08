@@ -23,7 +23,17 @@ import java.util.List;
 						"jdbc:mysql://" + username + ":" + password + "@" + ip + "/"
 						);
 				System.out.println("Connected to database");
-				initDBAndTable();
+				conn.prepareStatement("CREATE DATABASE IF NOT EXISTS user_db;").executeUpdate(); //must write Schema apparently
+				conn.setCatalog("user_db");
+				System.out.println("USERDB REACHED");
+				conn.prepareStatement( //this whole statement would have to be remade for modification purposes, but yeah
+						"CREATE TABLE IF NOT EXISTS Users (" + 
+						"id Integer NOT NULL AUTO_INCREMENT," + 
+						"name VARCHAR(255)," + 
+						"proffesion VARCHAR(255)," + 
+						"CONSTRAINT user_id PRIMARY KEY (id)" + 
+						");").executeUpdate();
+				System.out.println("CREATED TABLE");
 			}catch(SQLException e) {
 				System.out.println("Error: " + e.getMessage());
 			}
@@ -41,10 +51,9 @@ import java.util.List;
 				System.out.println("USERDB REACHED");
 				conn.prepareStatement( //this whole statement would have to be remade for modification purposes, but yeah
 						"CREATE TABLE IF NOT EXISTS Users (" + 
-						"id Integer NOT NULL AUTO_INCREMENT," + 
+						"id SERIAL NOT NULL PRIMARY KEY," + 
 						"name VARCHAR(255)," + 
-						"proffesion VARCHAR(255)," + 
-						"CONSTRAINT user_id PRIMARY KEY (id)" + 
+						"proffesion VARCHAR(255)" +
 						");").executeUpdate();
 				System.out.println("CREATED TABLE");
 			}catch(SQLException e) {
@@ -73,22 +82,6 @@ import java.util.List;
 				
 			}catch(Exception e) {
 				return null;
-			}
-			
-			
-		}private synchronized void initDBAndTable() {
-			try {
-			conn.prepareStatement("CREATE DATABASE IF NOT EXISTS user_db ;").executeUpdate();
-			conn.setCatalog("user_db");
-			conn.prepareStatement( //this whole statement would have to be remade for modification purposes, but yeah
-					"CREATE TABLE IF NOT EXISTS Users (" + 
-					"id Integer NOT NULL AUTO_INCREMENT," + 
-					"name VARCHAR(255)," + 
-					"proffesion VARCHAR(255)," + 
-					"CONSTRAINT user_id PRIMARY KEY (id)" + 
-					");").executeUpdate();
-			}catch(SQLException e){
-				e.printStackTrace();
 			}
 		}public synchronized void addUser(String fullname, String proffesion) {
 			try {
