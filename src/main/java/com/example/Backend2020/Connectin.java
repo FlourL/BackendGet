@@ -83,12 +83,20 @@ import java.util.List;
 			}catch(Exception e) {
 				return null;
 			}
-		}public synchronized void addUser(String fullname, String proffesion) {
+		}
+		public synchronized void addUser(String fullname, String proffesion) {
 			try {
 				//When surrounded by ' and ' one can write "DROP TABLE Users" and all that jazz with no worries
 				conn.prepareStatement("INSERT INTO Users (name,proffesion) Values ('" + fullname + "','" + proffesion + "');").executeQuery();
 				System.out.println("user added");
 			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		public synchronized void clearUsers() {
+			try {
+				conn.prepareStatement("TRUNCATE TABLE Users;");
+			}catch(SQLException e) {
 				e.printStackTrace();
 			}
 		}
