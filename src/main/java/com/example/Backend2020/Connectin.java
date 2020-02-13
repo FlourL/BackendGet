@@ -95,7 +95,7 @@ import java.util.List;
 		}
 		public synchronized void clearUsers() {
 			try {
-				conn.prepareStatement("TRUNCATE TABLE Users;");
+				conn.prepareStatement("TRUNCATE TABLE Users;").executeUpdate();
 			}catch(SQLException e) {
 				e.printStackTrace();
 			}
