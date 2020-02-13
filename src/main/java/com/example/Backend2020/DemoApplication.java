@@ -19,6 +19,7 @@ public class DemoApplication {
 	Connectin contin = Connectin.getInstance();
 	@RequestMapping(value = "/addUser",method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	String addUser(@RequestBody User user) {
+		contin.ConnectTo("JDBC_DATABASE_URL");
 		contin.addUser(user.getName(), user.getProffesion());
 		return "Tried adding user";
 	}
