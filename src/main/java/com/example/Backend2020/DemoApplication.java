@@ -34,11 +34,6 @@ public class DemoApplication {
 	public @ResponseBody
 	List<User> userlist() { //return list of objects with jackson lib
 		contin.ConnectTo("JDBC_DATABASE_URL");
-		//contin.ConnectTo("localhost:3306", "root", getPassword());
-		//ADDING NEW USERS
-		contin.clearUsers();
-		//contin.addUser("Karl Pedersson", "Physicist");
-		//contin.addUser("Frederick Underson; Drop Table Users;", "Expert in doing; Drop Table Users");
 		return contin.getAllUsers();
 	}
 	public static void main(String[] args) {
