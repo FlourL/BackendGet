@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class DemoApplication {
 	Connectin contin = Connectin.getInstance();
 	@RequestMapping(value = "/addUser",method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
 	public String addUser(@ModelAttribute User user) {
 		contin.ConnectTo("JDBC_DATABASE_URL");
 		contin.addUser(user.getName(), user.getProffesion());
