@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+@Controller
 @SpringBootApplication
 public class DemoApplication {
 	Connectin contin = Connectin.getInstance();
@@ -28,7 +29,8 @@ public class DemoApplication {
 		return "Tried adding user";
 	}
 	@RequestMapping(value = "/userlist", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<User> userlist() { //return list of objects with jackson lib
+	public @ResponseBody
+	List<User> userlist() { //return list of objects with jackson lib
 		contin.ConnectTo("JDBC_DATABASE_URL");
 		return contin.getAllUsers();
 	}
