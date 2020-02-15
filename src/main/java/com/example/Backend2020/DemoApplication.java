@@ -21,6 +21,7 @@ public class DemoApplication {
 	@RequestMapping(value = "/addUser",method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public String addUser(@ModelAttribute User user) {
+		System.out.println(user.getName() + user.getProffesion());
 		contin.ConnectTo("JDBC_DATABASE_URL");
 		contin.addUser(user.getName(), user.getProffesion());
 		return "Tried adding user";
