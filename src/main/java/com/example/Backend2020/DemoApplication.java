@@ -18,24 +18,38 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @SpringBootApplication
 public class DemoApplication {
 	Connectin contin = Connectin.getInstance();
+	
 	@RequestMapping(value = "/addUser",method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public String addUser(@ModelAttribute User user) {
+	public @ResponseBody
+	String addUser(@ModelAttribute User user) {
+		System.out.println(user.getName() + user.getProffesion());
 		contin.ConnectTo("JDBC_DATABASE_URL");
 		contin.addUser(user.getName(), user.getProffesion());
 		return "Tried adding user";
 	}
+	
 	@RequestMapping("/")
-	String get(){
+	public String get(){
 		return "try going to /userlist";
 	}
+	
+	@RequestMapping("")
+	public String home(){
+		return "try going to /userlist";
+	}
+	
+	@RequestMapping(value = "/clearTable")
+	public void clear() {
+		contin.clearUsers();
+	}
+	
 	@RequestMapping(value = "/userlist", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	//index
 	public @ResponseBody
 	List<User> userlist() { //return list of objects with jackson lib
 		contin.ConnectTo("JDBC_DATABASE_URL");
 		return contin.getAllUsers();
-	}
+	}//hey
+	
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
 	}
