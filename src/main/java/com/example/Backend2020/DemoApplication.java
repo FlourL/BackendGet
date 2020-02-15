@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @SpringBootApplication
 public class DemoApplication {
 	Connectin contin = Connectin.getInstance();
+	
 	@RequestMapping(value = "/addUser",method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody
 	String addUser(@ModelAttribute User user) {
@@ -26,19 +27,22 @@ public class DemoApplication {
 		contin.addUser(user.getName(), user.getProffesion());
 		return "Tried adding user";
 	}
+	
 	@RequestMapping("/")
 	public String get(){
 		return "try going to /userlist";
 	}
+	
 	@RequestMapping("")
 	public String home(){
 		return "try going to /userlist";
 	}
-	@RequestMapping(value = "/clearTable")
-	public void clear() {
-		contin.clearUsers();
-	}
 	
+//	@RequestMapping(value = "/clearTable")
+//	public void clear() {
+//		contin.clearUsers();
+//	}
+//	
 	@RequestMapping(value = "/userlist", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody
 	List<User> userlist() { //return list of objects with jackson lib
