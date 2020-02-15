@@ -27,22 +27,6 @@ public class DemoApplication {
 		contin.addUser(user.getName(), user.getProffesion());
 		return "Tried adding user";
 	}
-	
-//	@RequestMapping("/")
-//	public String get(){
-//		return "try going to /userlist";
-//	}
-//	
-//	@RequestMapping("")
-//	public String home(){
-//		return "try going to /userlist";
-//	}
-	
-//	@RequestMapping(value = "/clearTable")
-//	public void clear() {
-//		contin.clearUsers();
-//	}
-//	
 	@RequestMapping(value = "/userlist", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody
 	List<User> userlist() { //return list of objects with jackson lib
