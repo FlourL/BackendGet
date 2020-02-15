@@ -28,7 +28,6 @@ public class DemoApplication {
 		return "Tried adding user";
 	}
 	@RequestMapping(value = "/userlist", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody
 	List<User> userlist() { //return list of objects with jackson lib
 		contin.ConnectTo("JDBC_DATABASE_URL");
 		return contin.getAllUsers();
