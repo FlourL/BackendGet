@@ -1,26 +1,26 @@
 package com.example.Backend2020;
 
 public class User {
-	int id;
-	String name;
-	String proffesion;
+	int Id;
+	String Name;
+	String Proffesion;
 	public int getId() {
-		return id;
+		return Id;
 	}
 	public void setId(int id) {
-		this.id = id;
+		this.Id = id;
 	}
 	public String getName() {
-		return name;
+		return Name;
 	}
 	public void setName(String name) {
-		this.name = name;
+		this.Name = name;
 	}
 	public String getProffesion() {
-		return proffesion;
+		return Proffesion;
 	}
 	public void setProffesion(String proffesion) {
-		this.proffesion = proffesion;
+		this.Proffesion = proffesion;
 	}
 	
 }
