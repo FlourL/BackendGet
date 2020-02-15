@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-@Controller //Viktigt att komma ihåg
 @SpringBootApplication
 public class DemoApplication {
 	Connectin contin = Connectin.getInstance();
@@ -27,11 +26,22 @@ public class DemoApplication {
 		return "Tried adding user";
 	}
 	@RequestMapping("/")
-	String get(){
+	@ResponseBody
+	public String get(){
 		return "try going to /userlist";
 	}
+	@RequestMapping("")
+	@ResponseBody
+	public String home(){
+		return "try going to /userlist";
+	}
+	@RequestMapping(value = "/clearTable")
+	@ResponseBody
+	public void clear() {
+		contin.clearUsers();
+	}
+	
 	@RequestMapping(value = "/userlist", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	//index
 	public @ResponseBody
 	List<User> userlist() { //return list of objects with jackson lib
 		contin.ConnectTo("JDBC_DATABASE_URL");
