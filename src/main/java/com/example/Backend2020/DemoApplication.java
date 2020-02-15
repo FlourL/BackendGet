@@ -33,7 +33,9 @@ public class DemoApplication {
 	@RequestMapping(value = "/clearUsers")
 	public @ResponseBody
 		String clearUsers() {
-			return "table cleared";
+			contin.ConnectTo("JDBC_DATABASE_URL");
+			contin.clearUsers();
+		return "table cleared";
 		
 		
 	}
