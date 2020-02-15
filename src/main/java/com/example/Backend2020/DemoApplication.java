@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @SpringBootApplication
 public class DemoApplication {
 	Connectin contin = Connectin.getInstance();
-	@RequestMapping(value = "/addUser",method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/addUser",method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody
 	String addUser(@ModelAttribute User user) {
 		System.out.println(user.getName() + user.getProffesion());
@@ -33,7 +33,7 @@ public class DemoApplication {
 		String home(){
 			return "Try going to /userlist or /clearUsers";
 		}
-	@RequestMapping(value = "/clearUsers", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/clearUsers")
 	public @ResponseBody
 		String clearUsers() {
 			return "table cleared";
