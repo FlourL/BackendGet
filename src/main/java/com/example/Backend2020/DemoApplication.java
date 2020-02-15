@@ -28,27 +28,27 @@ public class DemoApplication {
 		return "Tried adding user";
 	}
 	
-	@RequestMapping("/")
-	public String get(){
-		return "try going to /userlist";
-	}
+//	@RequestMapping("/")
+//	public String get(){
+//		return "try going to /userlist";
+//	}
+//	
+//	@RequestMapping("")
+//	public String home(){
+//		return "try going to /userlist";
+//	}
 	
-	@RequestMapping("")
-	public String home(){
-		return "try going to /userlist";
-	}
-	
-	@RequestMapping(value = "/clearTable")
-	public void clear() {
-		contin.clearUsers();
-	}
-	
+//	@RequestMapping(value = "/clearTable")
+//	public void clear() {
+//		contin.clearUsers();
+//	}
+//	
 	@RequestMapping(value = "/userlist", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody
 	List<User> userlist() { //return list of objects with jackson lib
 		contin.ConnectTo("JDBC_DATABASE_URL");
 		return contin.getAllUsers();
-	}//hey
+	}
 	
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
