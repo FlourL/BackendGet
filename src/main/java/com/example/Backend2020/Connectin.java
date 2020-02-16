@@ -2,11 +2,11 @@ package com.example.Backend2020;
 
 	import java.sql.Connection;
 	import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+	import java.sql.PreparedStatement;
+	import java.sql.ResultSet;
+	import java.sql.SQLException;
+	import java.util.ArrayList;
+	import java.util.List;
 	
 	public class Connectin {
 		private static final Connectin contin = new Connectin();
@@ -56,7 +56,7 @@ import java.util.List;
 		public static Connectin getInstance() {
 			return contin;
 		}
-		public synchronized List<User> getAllUsers()throws SQLException{
+		public synchronized List<User>getAllUsers()throws SQLException{
 				List<User> userlist = new ArrayList<>();
 				String query = ("SElECT * FROM Users ");
 				PreparedStatement stmt = conn.prepareStatement(query);
