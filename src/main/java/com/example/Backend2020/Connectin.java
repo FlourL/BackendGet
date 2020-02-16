@@ -24,7 +24,16 @@ import java.util.List;
 						);
 				System.out.println("Connected to database");
 				conn.prepareStatement("CREATE DATABASE IF NOT EXISTS user_db;").executeUpdate(); //must write Schema apparently
-				createTable();
+				conn.setCatalog("user_db");
+				System.out.println("USERDB REACHED");
+				conn.prepareStatement( //this whole statement would have to be remade for modification purposes, but yeah
+						"CREATE TABLE IF NOT EXISTS Users (" + 
+						"id Integer NOT NULL AUTO_INCREMENT," + 
+						"name VARCHAR(255)," + 
+						"proffesion VARCHAR(255)," + 
+						"CONSTRAINT user_id PRIMARY KEY (id)" + 
+						");").executeUpdate();
+				System.out.println("CREATED TABLE");
 			}catch(SQLException e) {
 				System.out.println("Error: " + e.getMessage());
 			}
@@ -38,7 +47,15 @@ import java.util.List;
 				System.out.println("Connected to database");
 				//initDBAndTable();
 				conn.prepareStatement("CREATE SCHEMA IF NOT EXISTS user_db;").executeUpdate(); //must write Schema apparently
-				createTable();
+				conn.setCatalog("user_db");
+				System.out.println("USERDB REACHED");
+				conn.prepareStatement( //this whole statement would have to be remade for modification purposes, but yeah
+						"CREATE TABLE IF NOT EXISTS Users (" + 
+						"id SERIAL NOT NULL PRIMARY KEY," + 
+						"name VARCHAR(255)," + 
+						"proffesion VARCHAR(255)" +
+						");").executeUpdate();
+				System.out.println("CREATED TABLE");
 			}catch(SQLException e) {
 				System.out.println("Error: " + e.getMessage());
 			}
@@ -79,13 +96,6 @@ import java.util.List;
 		public synchronized void clearUsers() {
 			try {
 				conn.prepareStatement("DROP TABLE Users;").executeUpdate();
-				createTable();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		public void createTable() {
-			try {
 				conn.setCatalog("user_db");
 				System.out.println("USERDB REACHED");
 				conn.prepareStatement( //this whole statement would have to be remade for modification purposes, but yeah
@@ -96,10 +106,9 @@ import java.util.List;
 						"CONSTRAINT user_id PRIMARY KEY (id)" + 
 						");").executeUpdate();
 				System.out.println("CREATED TABLE");
-			} catch (SQLException e) {
+			}catch(SQLException e) {
 				e.printStackTrace();
 			}
-			
 		}
 	}
 
