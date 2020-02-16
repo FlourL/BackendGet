@@ -84,7 +84,7 @@ import java.util.List;
 				e.printStackTrace();
 			}
 		}
-		private void createTable() {
+		public void createTable() {
 			try {
 				conn.setCatalog("user_db");
 				System.out.println("USERDB REACHED");
