@@ -22,17 +22,18 @@ public class MyController {
 		try {
 			contin.ConnectTo("JDBC_DATABASE_URL");
 			contin.addUser(user.getName(), user.getProffesion());
+			return "--ADDED USER";
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return "--FAILED ADDING USER";
 		}
-		return "Tried adding user";
+		
 	}	
 	
 	@RequestMapping(value = "")
 	public @ResponseBody
 		String home(){
-			return "Try going to /userlist or /clearUsers";
+			return "Try going to /userlist";
 		}
 	@RequestMapping(value = "/clearUsers", method = RequestMethod.GET)
 	public @ResponseBody
@@ -40,13 +41,11 @@ public class MyController {
 			try {
 				contin.ConnectTo("JDBC_DATABASE_URL");
 				contin.clearUsers();
+				return "--TABLE CLEARED";
 			} catch (SQLException e) {
 				e.printStackTrace();
+				return "--FAILED CLEARING TABLE";
 			}
-			
-		return "table cleared";
-		
-		
 	}
 	@RequestMapping(value = "/userList", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody
