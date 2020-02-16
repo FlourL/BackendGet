@@ -30,7 +30,7 @@ public class DemoApplication {
 		String home(){
 			return "Try going to /userlist or /clearUsers";
 		}
-	@RequestMapping(value = "/clearUsers")
+	@RequestMapping(value = "/clearUsers", method = RequestMethod.POST)
 	public @ResponseBody
 		String clearUsers() {
 			contin.ConnectTo("JDBC_DATABASE_URL");
