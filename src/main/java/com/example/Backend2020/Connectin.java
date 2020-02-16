@@ -86,10 +86,9 @@ package com.example.Backend2020;
 				System.out.println("USERDB REACHED");
 				conn.prepareStatement( //this whole statement would have to be remade for modification purposes, but yeah
 						"CREATE TABLE IF NOT EXISTS Users (" + 
-						"id Integer NOT NULL AUTO_INCREMENT," + 
+						"id SERIAL NOT NULL PRIMARY KEY," + 
 						"name VARCHAR(255)," + 
-						"proffesion VARCHAR(255)," + 
-						"CONSTRAINT user_id PRIMARY KEY (id)" + 
+						"proffesion VARCHAR(255)" +
 						");").executeUpdate();
 				System.out.println("CREATED TABLE");
 		}
