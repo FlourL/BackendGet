@@ -14,8 +14,7 @@ import java.util.List;
 		private Connectin() { 
 			super();
 		}
-		public synchronized void ConnectTo(String ip ,String username, String password ){
-			try {
+		public synchronized void ConnectTo(String ip ,String username, String password )throws SQLException{
 				if(conn != null) {
 					conn.close();
 				}
@@ -34,12 +33,9 @@ import java.util.List;
 						"CONSTRAINT user_id PRIMARY KEY (id)" + 
 						");").executeUpdate();
 				System.out.println("CREATED TABLE");
-			}catch(SQLException e) {
-				System.out.println("Error: " + e.getMessage());
-			}
+			
 		}
-		public synchronized void ConnectTo(String systemEnvUrl) {
-			try {
+		public synchronized void ConnectTo(String systemEnvUrl)throws SQLException {
 				if(conn != null) {
 					conn.close();
 				}
@@ -56,15 +52,11 @@ import java.util.List;
 						"proffesion VARCHAR(255)" +
 						");").executeUpdate();
 				System.out.println("CREATED TABLE");
-			}catch(SQLException e) {
-				System.out.println("Error: " + e.getMessage());
-			}
 		}
 		public static Connectin getInstance() {
 			return contin;
 		}
-		public synchronized List<User> getAllUsers(){
-			try {
+		public synchronized List<User> getAllUsers()throws SQLException{
 				List<User> userlist = new ArrayList<>();
 				String query = ("SElECT * FROM Users ");
 				PreparedStatement stmt = conn.prepareStatement(query);
@@ -78,13 +70,8 @@ import java.util.List;
 					
 				}
 				return userlist;
-				
-				
-			}catch(Exception e) {
-				return null;
-			}
 		}
-		public synchronized void addUser(String fullname, String proffesion) {
+		public synchronized void addUser(String fullname, String proffesion)throws SQLException {
 			try {
 				//When surrounded by ' and ' one can write "DROP TABLE Users" and all that jazz with no worries
 				conn.prepareStatement("INSERT INTO Users (name,proffesion) Values ('" + fullname + "','" + proffesion + "');").executeQuery();
@@ -93,8 +80,7 @@ import java.util.List;
 				e.printStackTrace();
 			}
 		}
-		public synchronized void clearUsers() {
-			try {
+		public synchronized void clearUsers() throws SQLException{
 				conn.prepareStatement("DROP TABLE Users;").executeUpdate();
 				conn.setCatalog("user_db");
 				System.out.println("USERDB REACHED");
@@ -106,9 +92,6 @@ import java.util.List;
 						"CONSTRAINT user_id PRIMARY KEY (id)" + 
 						");").executeUpdate();
 				System.out.println("CREATED TABLE");
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
 		}
 	}
 
