@@ -15,17 +15,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class MyController {
 	Connectin contin = Connectin.getInstance();
 	
-	@RequestMapping(value = "/addUser",method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/addTagDoc",method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody
-	String addUser(@RequestBody User user) {
-		System.out.println(user.getName() + user.getProffesion());
+	String addTagDoc(@RequestBody TagDocDB tagDoc) {
+		System.out.println(tagDoc.getName());
 		try {
 			contin.ConnectTo("JDBC_DATABASE_URL");
-			contin.addUser(user.getName(), user.getProffesion());
-			return "--ADDED USER";
+			//contin.ad
+			return "--ADDED TAGDOC";
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return "--FAILED ADDING USER";
+			return "--FAILED ADDING TAGDOC";
 		}
 		
 	}	
@@ -35,24 +35,24 @@ public class MyController {
 		String home(){
 			return "Try going to /userlist";
 		}
-	@RequestMapping(value = "/clearUsers", method = RequestMethod.GET)
+	@RequestMapping(value = "/clearTagDocs", method = RequestMethod.GET)
 	public @ResponseBody
-		String clearUsers(){
+		String clearTagDocs(){
 			try {
 				contin.ConnectTo("JDBC_DATABASE_URL");
-				contin.clearUsers();
+				//contin.clearUsers();
 				return "--TABLE CLEARED";
 			} catch (SQLException e) {
 				e.printStackTrace();
 				return "--FAILED CLEARING TABLE";
 			}
 	}
-	@RequestMapping(value = "/userList", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/tagDocList", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody
-	List<User> userList() { //return list of objects with jackson lib
+	List<TagDocDB> tagDocList() { //return list of objects with jackson lib
 		try {
 			contin.ConnectTo("JDBC_DATABASE_URL");
-			return contin.getAllUsers();
+			return contin.getAllTagDocs();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;

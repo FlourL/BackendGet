@@ -11,29 +11,10 @@ package com.example.Backend2020;
 	public class Connectin {
 		private static final Connectin contin = new Connectin();
 		private Connection conn;
+		String db_name = "tagDoc_db";
+		String table_name = "TagDocs";
 		private Connectin() { 
 			super();
-		}
-		public synchronized void ConnectTo(String ip ,String username, String password )throws SQLException{
-				if(conn != null) {
-					conn.close();
-				}
-				conn = DriverManager.getConnection(
-						"jdbc:mysql://" + username + ":" + password + "@" + ip + "/"
-						);
-				System.out.println("Connected to database");
-				conn.prepareStatement("CREATE DATABASE IF NOT EXISTS user_db;").executeUpdate(); //must write Schema apparently
-				conn.setCatalog("user_db");
-				System.out.println("USERDB REACHED");
-				conn.prepareStatement( //this whole statement would have to be remade for modification purposes, but yeah
-						"CREATE TABLE IF NOT EXISTS Users (" + 
-						"id Integer NOT NULL AUTO_INCREMENT," + 
-						"name VARCHAR(255)," + 
-						"proffesion VARCHAR(255)," + 
-						"CONSTRAINT user_id PRIMARY KEY (id)" + 
-						");").executeUpdate();
-				System.out.println("CREATED TABLE");
-			
 		}
 		public synchronized void ConnectTo(String systemEnvUrl)throws SQLException {
 				if(conn != null) {
@@ -42,55 +23,42 @@ package com.example.Backend2020;
 				conn = DriverManager.getConnection(System.getenv(systemEnvUrl));
 				System.out.println("Connected to database");
 				//initDBAndTable();
-				conn.prepareStatement("CREATE SCHEMA IF NOT EXISTS user_db;").executeUpdate(); //must write Schema apparently
-				conn.setCatalog("user_db");
-				System.out.println("USERDB REACHED");
+				conn.prepareStatement("CREATE SCHEMA IF NOT EXISTS "+ db_name +";").executeUpdate(); //must write Schema apparently
+				conn.setCatalog(db_name);
+				System.out.println("TagDoc DB Reached");
 				conn.prepareStatement( //this whole statement would have to be remade for modification purposes, but yeah
-						"CREATE TABLE IF NOT EXISTS Users (" + 
-						"id SERIAL NOT NULL PRIMARY KEY," + 
+						"CREATE TABLE IF NOT EXISTS TagDocs (" +  
+						"id SERIAL NOT NULL PRIMARY KEY," +
 						"name VARCHAR(255)," + 
-						"proffesion VARCHAR(255)" +
+						"tags LONGTEXT," +
+						"filepath MEDIUMTEXT" +
 						");").executeUpdate();
 				System.out.println("CREATED TABLE");
 		}
 		public static Connectin getInstance() {
 			return contin;
 		}
-		public synchronized List<User>getAllUsers()throws SQLException{
-				List<User> userlist = new ArrayList<>();
-				String query = ("SElECT * FROM Users ");
+		public synchronized List<TagDocDB> getAllTagDocs()throws SQLException{
+				List<TagDocDB> tdlist = new ArrayList<>();
+				String query = ("SElECT * FROM " + table_name + ";");
 				PreparedStatement stmt = conn.prepareStatement(query);
 				ResultSet rs = stmt.executeQuery();
 				while(rs.next()) {
-					User temp = new User();
-					temp.setId(rs.getInt("id"));
-					temp.setName(rs.getString("name"));
-					temp.setProffesion(rs.getString("proffesion"));
-					userlist.add(temp);
+					TagDocDB temp = new TagDocDB(rs.getInt("id"),rs.getString("filepath"));
+					temp.addTagsByStringOfTags(rs.getString("tags"));
+					tdlist.add(temp);
 					
 				}
-				return userlist;
+				return tdlist;
 		}
-		public synchronized void addUser(String fullname, String proffesion)throws SQLException {
+		public synchronized void addTagDoc(TagDocDB tagDoc)throws SQLException {
 			try {
-				//When surrounded by ' and ' one can write "DROP TABLE Users" and all that jazz with no worries
-				conn.prepareStatement("INSERT INTO Users (name,proffesion) Values ('" + fullname + "','" + proffesion + "');").executeQuery();
-				System.out.println("user added");
+				//When surrounded by ' and ' one can write "DROP TABLE TagDocs" and all that jazz with no worries
+				conn.prepareStatement("INSERT INTO TagDocs(name,tags,filepath) Values ('" + tagDoc.getName() + "','" + tagDoc.getStringOfTags() + "," + tagDoc.getFilepath() + "');").executeQuery();
+				System.out.println("TagDoc added");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
-		public synchronized void clearUsers() throws SQLException{
-				conn.prepareStatement("DROP TABLE Users;").executeUpdate();
-				conn.setCatalog("user_db");
-				System.out.println("USERDB REACHED");
-				conn.prepareStatement( //this whole statement would have to be remade for modification purposes, but yeah
-						"CREATE TABLE IF NOT EXISTS Users (" + 
-						"id SERIAL NOT NULL PRIMARY KEY," + 
-						"name VARCHAR(255)," + 
-						"proffesion VARCHAR(255)" +
-						");").executeUpdate();
-				System.out.println("CREATED TABLE");
 		}
 	}
 
