@@ -18,10 +18,10 @@ public class MyController {
 	@RequestMapping(value = "/addTagDoc",method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody
 	String addTagDoc(@RequestBody TagDocDB tagDoc) {
-		System.out.println(tagDoc.getName());
+		//System.out.println(tagDoc.getName() + " " + tagDoc.getFilepath() + " " +  tagDoc.getStringOfTags());
 		try {
 			contin.ConnectTo("JDBC_DATABASE_URL");
-			//contin.ad
+			contin.addTagDoc(tagDoc);
 			return "--ADDED TAGDOC";
 		} catch (SQLException e) {
 			e.printStackTrace();

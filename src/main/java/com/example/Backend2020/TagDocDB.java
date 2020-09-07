@@ -1,9 +1,7 @@
 package com.example.Backend2020;
 
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import org.json.JSONArray;
@@ -13,46 +11,20 @@ import org.json.JSONObject;
 public class TagDocDB {
 	protected int id;
 	protected String name;
-	protected ArrayList<String> tags;
-	protected Path filepath;
+	protected String tags; //String of Tags
+	protected String filePath;
+	protected JSONArray jsonTags; //JSONArray of Tags
 	
-	public TagDocDB(String filepath) {
-		this.filepath = Paths.get(filepath);
-		this.name = this.filepath.getFileName().toString();
-		tags = new ArrayList<String>();
-	}
-	public TagDocDB(int id, String filepath) {
+	public TagDocDB(int id, String filePath) {
 		this.id = id;
-		this.filepath = Paths.get(filepath);
-		this.name = this.filepath.getFileName().toString();
-		tags = new ArrayList<String>();
+		this.filePath = filePath;
+		this.name = Paths.get(filePath).getFileName().toString();
+		addTagsByStringOfTags(tags);
 	}
-	//Tag Handling Methods
-	public boolean containsTag(String tag) {
-		return tags.contains(tag);
-	}
-	public void addTagsByStringOfTags(String stringTags) {
-		String[] tagTempArray = stringTags.split(Pattern.quote("|"));
-		tags = new ArrayList<String>(Arrays.asList(tagTempArray));
-	}
-	public void addTag(String tag) {
-		tags.add(tag);
-	}
-	public void removeTag(String tag) {
-		tags.remove(tag);
-	}
-	public boolean hasTag(String tag){
-		return tags.contains(tag);
-	}
-	public String getStringOfTags(){
-		String stringTags = "";
-		for(int i = 0; i < tags.size(); i++) {
-			stringTags += tags.get(i);
-			if(i != (tags.size() - 1)) { //Ugly solution
-				stringTags += "|";
-			}
-		}
-		return stringTags;
+	public void TagDocDb(TagDocWrapper tdWrapper) {
+		this.name = tdWrapper.getName();
+		jsonTags = new JSONArray(tdWrapper.getTags());
+		this.filePath = tdWrapper.getFilePath();
 	}
 	//Getter/Setters
 	public String getName() {
@@ -61,12 +33,27 @@ public class TagDocDB {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public void setFilePath(String filepath) {
-		this.filepath = Paths.get(filepath);
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
 	}
 	public String getFilepath() {
-		return this.filepath.toString();
+		return this.filePath;
 	}
+	public String getStringOfTags() {
+		return tags;
+	}
+	//Tag Handling (SQL TRANSFER)
+	public void addTagsByStringOfTags(String stringTags) {
+		String[] tagTempArray = stringTags.split(Pattern.quote("|"));
+		try {
+			tags = stringTags;
+			jsonTags = new JSONArray(tagTempArray);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	//JSON TO STRING
 	public String toJsonString(boolean includeId) {
 		String jsonString = "";
 		try {
@@ -74,9 +61,8 @@ public class TagDocDB {
 		if(includeId)
 			jsonO.put("id", this.id);
 		jsonO.put("name", this.name);
-		jsonO.put("filepath", this.filepath);
-		JSONArray jsonArr = new JSONArray(tags);
-		jsonO.put("tags", jsonArr);
+		jsonO.put("filepath", this.filePath);
+		jsonO.put("tags", jsonTags);
 		}catch(JSONException e) {
 			e.printStackTrace();
 		}
