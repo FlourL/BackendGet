@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Pattern;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class TagDocDB {
 	protected int id;
 	protected String name;
@@ -62,5 +66,20 @@ public class TagDocDB {
 	}
 	public String getFilepath() {
 		return this.filepath.toString();
+	}
+	public String toJsonString(boolean includeId) {
+		String jsonString = "";
+		try {
+		JSONObject jsonO = new JSONObject();
+		if(includeId)
+			jsonO.put("id", this.id);
+		jsonO.put("name", this.name);
+		jsonO.put("filepath", this.filepath);
+		JSONArray jsonArr = new JSONArray(tags);
+		jsonO.put("tags", jsonArr);
+		}catch(JSONException e) {
+			e.printStackTrace();
+		}
+		return jsonString;
 	}
 }
